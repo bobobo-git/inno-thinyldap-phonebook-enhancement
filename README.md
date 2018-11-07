@@ -1,8 +1,8 @@
-# phonebook-enhancement
+# phonebook-enhancement for a the [inno-thinyldap provided by a-schild](https://github.com/a-schild/inno-thinyldap)
 
 What about an ehnhancement to [this phonebook](https://github.com/a-schild/inno-thinyldap) ?
 
-noticed in forum [here](http://class.innovaphone.com/moodle2/mod/forum/discuss.php?d=20447)
+noticed in innovaphone forum [here](http://class.innovaphone.com/moodle2/mod/forum/discuss.php?d=20447)
 
 myPBX can [call externals apps with incoming calls](http://wiki.innovaphone.com/index.php?title=Reference11r1:Concept_myPBX#Starting_an_external_application_for_a_call)
 
