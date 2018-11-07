@@ -25,8 +25,11 @@ programm started as external app from myPBX that checks
 incoming calls and shows an inputdialog for input names
 and selecting  Numbertype (phone,mobile or home)
 
-# Step 5
+i have a running version here.
 
+# Step 5  [it's alive](https://youtu.be/xos2MnVxe-c?t=4)
+
+## todo 
 make an installation guide
 
   - mysql-odbc-connector - install & config
@@ -35,7 +38,7 @@ make an installation guide
   - install&config the local applikation
   - config myPBX to use the local application
   
-
+think about to 
 
 ----
 [wiki-reference](http://wiki.innovaphone.com/index.php?title=Reference11r1:Concept_myPBX#Starting_an_external_application_for_a_call)
