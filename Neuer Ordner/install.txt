@@ -1,0 +1,14 @@
+add to /etc/lighttpd/lighttpd.conf
+
+======  
+
+$SERVER["socket"] == ":8080" {
+  server.document.root ="/var/www/tools/"
+  server.errorlog= "/var/www/tools/log"
+}
+
+======
+
+mkdir /var/www/tools/
+mkdir /var/www/tools/log
+
