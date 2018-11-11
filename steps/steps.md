@@ -61,7 +61,26 @@ unknown incomming numbers.
 And has a a switch to browse to a webside where the mysql-table-data can be managed
 change names, numbers, insert whole sets, delete whole sets, and so on.
 
+# Step 8
 
+some tools created
+(input.php)
+inserting a new dataset with a number at phone,mobile or home via urlparameter
+
+(ask.php)
+check if a number already exists (and call input.php with parameters if not, this
+is not ok as it is not clear what numbertype it is)
+
+the app should ask if it's a phone, mobile or home number
+and call the input.php afterwards.
+mobile could be analyzed +4915 +4916 +4917  for Germany
+
+so the app calls ask.php  and get back how often ths number is already in the address-table  (receivehttpdata)
+
+if 0 the app calls input.php with parameter and asks beforehand the numbertype from the user.
+
+ 
+# 
  
 # Step 88 
 
