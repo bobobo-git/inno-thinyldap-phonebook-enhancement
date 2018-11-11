@@ -14,11 +14,11 @@ Testing access to the phonebook table via Http(s) with __no Success__
 
 Further testing access to the phonebook table via Http(s) with __no Success__
 
-#Step 4
+# Step 4 1
 
 Decision to use an mysql-odbc-connector to access the phonebook-table
 
-# Step 4
+# Step 4 2
 
 It ended with using mysql-odbc-connector and a selfmade  
 programm started as external app from myPBX that checks  
@@ -29,10 +29,15 @@ i have a running version here.
 
 # [it's alive](https://youtu.be/xos2MnVxe-c?t=4)
 
-# Step 5
+# Step 5 1  
+
 Testing phase  __<- WE ARE HERE__
 
-# Step 6 deviation
+# Step 6
+
+scratching head
+
+# Step 6 new deviation
 I thought about the odbc-connector and came to the enlightment that this is  
 not the way to go on further.  
 to avoid installations more than the lokal app itself it could be wise to get

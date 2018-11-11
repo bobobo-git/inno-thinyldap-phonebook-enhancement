@@ -1,0 +1,51 @@
+add to /etc/lighttpd/lighttpd.conf
+
+======  
+
+$SERVER["socket"] == ":8080" {
+  server.document.root ="/var/www/tools/"
+  server.errorlog= "/var/www/tools/log"
+}
+
+======
+
+mkdir /var/www/tools
+mkdir /var/www/tools/log
+
+
+--
+upload content of tools to /var/www/tools
+
+use the editor (Adminer Editor) in the inno.thinyldap webapp from /tools
+Get editor.php from Adminer https://www.adminer.org/editor/ and put it into
+/var/www/tools
+
+to make it simple add a mysqluser to get access with no password and acces to the address.
+access only to the address-table and used only from the lap itself (localhost)
+
+=====
+
+mysql -u root
+  CREATE USER 'addressmaster'@'localhost';
+  GRANT ALL ON phonebook_innovaphone.* TO 'addressmaster'@'localhost';
+  FLUSH PRIVILEGES;
+  exit
+
+=====
+
+
+http://<ip of lap>:8080/tools
+
+
+call editor.php?username=addressmaster&select=address will show the editor
+for the address 
+
+---
+input.php?no=++49123456798&nt=phonr will insert a new dataset with number in phone and no company
+will go to editor with the selection of all datasets with no company set
+
+ask.php?no=+49123456798  will aks if there is a dataset with the number (no) in phone,mobile or home
+if there is no result it calls input.pho with parameters to insert it as ne dataset
+if is a result nothing is done.
+ 
+
