@@ -3,8 +3,7 @@ add to /etc/lighttpd/lighttpd.conf
 ======  
 
 $SERVER["socket"] == ":8080" {
-  server.document.root ="/var/www/tools/"
-  server.errorlog= "/var/www/tools/log"
+    server.document-root =  "/var/www/tools"
 }
 
 ======
@@ -21,6 +20,7 @@ Get editor.php from Adminer https://www.adminer.org/editor/ and put it into
 /var/www/tools
 
 to make it simple add a mysqluser to get access with no password and acces to the address.
+(the editor ask the password via fomular)
 access only to the address-table and used only from the lap itself (localhost)
 
 =====
@@ -36,9 +36,13 @@ mysql -u root
 
 http://<ip of lap>:8080/tools
 
+edit the index.html
 
 call editor.php?username=addressmaster&select=address will show the editor
-for the address 
+for the address table
+
+call editor via url http://<LAPIP>:8080/editor.php?username=addressmaster&select=address&where%5B0%5D%5Bcol%5D=company&where%5B0%5D%5Bop%5D=&where%5B0%5D%5Bval%5D=&where%5B01%5D%5Bcol%5D=&where%5B01%5D%5Bop%5D=&where%5B01%5D%5Bval%5D=&order%5B1%5D=company&limit=50
+calls the editor and shows all datasets with empty company
 
 ---
 input.php?no=++49123456798&nt=phonr will insert a new dataset with number in phone and no company

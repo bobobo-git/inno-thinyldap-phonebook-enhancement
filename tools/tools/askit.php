@@ -1,8 +1,8 @@
 <?php
 
 $no = urlencode($_GET['no']);
+require("dbconnect.php");
 
-$db = new mysqli("localhost", "addressmaster", "", "phonebook_innovaphone");
 if($db->connect_errno) {
     die('error');
 }
@@ -20,5 +20,5 @@ if ($count==0){
 }else{
 	echo "schon da";
 }
-
+require("dbdisconnect.php");
 ?>
