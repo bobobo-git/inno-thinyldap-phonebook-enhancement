@@ -7,7 +7,6 @@ $ins='insert into address ('.$_GET["nt"].') values(\''.urlencode($_GET["no"]).'\
 //echo ins;
 //echo '<br>hier beachen dass ein + Zeichen in einLeerzeichen konvertiert wird (RFC 3986)<br>deshalb urlencode für die Nummer;';
 
-$db = new mysqli("127.0.0.1", "dbuser", "ldap-user-password", "phonebook_innovaphone");
 
 if ($db->connect_errno) {
     echo "Failed to connect to MySQL: (" . $db->connect_errno . ") " . $db->connect_error;
