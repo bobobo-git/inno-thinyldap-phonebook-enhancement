@@ -31,7 +31,7 @@ i have a running version here.
 
 # Step 5 1  
 
-Testing phase  __<- WE ARE HERE__
+Testing phase  
 
 # Step 6
 
@@ -79,7 +79,20 @@ so the app calls ask.php  and get back how often ths number is already in the ad
 
 if 0 the app calls input.php with parameter and asks beforehand the numbertype from the user.
 
- 
+# Step 9 
+
+tools on websewrver created  
+local app can handle data via those tools  
+the local app fetches the address table and put it in a local sqlite database    
+which is used for seaching name, company, firstname phonetype and addressID  
+
+has got F1 for Help and F3 to switch to the editor (webbased)  
+
+# Step 10
+
+testing phase   __<- WE ARE HERE__
+
+
 # 
  
 # Step 88 
