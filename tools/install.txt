@@ -1,3 +1,5 @@
+# notices internal  
+
 add to /etc/lighttpd/lighttpd.conf
 
 ======  
@@ -26,13 +28,39 @@ access only to the address-table and used only from the lap itself (localhost)
 =====
 
 mysql -u root
-  CREATE USER 'addressmaster'@'localhost';
-  GRANT ALL ON phonebook_innovaphone.* TO 'addressmaster'@'localhost';
+  CREATE USER 'addressmaster'@'localhost' IDENTIFIED BY 'pw4am';
+  GRANT ALL ON phonebook_innovaphone.address TO 'addressmaster'@'localhost';
+  FLUSH PRIVILEGES;
+  exit
+
+=====
+create a mysqluser to access via editor. with no password (comfortyble while calling editor form the app)
+
+=====
+mysql -u root
+  CREATE USER 'addresseditor'@'localhost';
+  GRANT ALL ON phonebook_innovaphone.address TO 'addresseditor'@'localhost';
   FLUSH PRIVILEGES;
   exit
 
 =====
 
+access to the editor.php directly from the app (F3)
+
+=========
+
+Switch in APP to DataCollector (1)  or DataEditor (0)
+DataCollector fills a table with timestamp, extension and Callernumber
+DataEditor use the APP whith incoming and Outgoing calls
+
+Create Callist table
+
+mysql -u root
+  source /var/www/tools/calllist.sql
+  exit
+
+=========
+not really needed
 
 http://<ip of lap>:8080/tools
 
