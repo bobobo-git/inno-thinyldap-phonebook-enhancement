@@ -1,83 +1,67 @@
-# notices internal  
+You need access via ssh (in windows 10 : open comandshell and enter  
 
-add to /etc/lighttpd/lighttpd.conf
+**ssh root@ipoflap**  
+will ask for password 
 
-======  
+and a possibility to edit files on the webserver (i use winscp)
+-making a parallel folder to get access via port 8080so http://<lap-ip>:8080 calls this folder 
 
-$SERVER["socket"] == ":8080" {
+
+add to /etc/lighttpd/lighttpd.conf (winscp)
+
+
+   ($SERVER["socket"] == ":8080" {
     server.document-root =  "/var/www/tools"
 }
 
-======
+
+make directory /var/wwww/tools (ssh)
 
 mkdir /var/www/tools
-mkdir /var/www/tools/log
 
 
 --
-upload content of tools to /var/www/tools
+upload content of webserver to /var/www/tools
+- **adminer.php** - tools to handle mysql-databases (replacement for phpmyadmin) just in case of needed when fooling around with mysql-user settings
+- **editor.php** - tool to edit mysql-tables , enhanced by a little twist to close the browser window when clicking "Abmelden"  
+- **askitall.php** - script to get the phonebook as sql insert-script
+- **dbconnect.php** - mysqlconnection, put user appsword, tablename here
+- **dbsdisconnect.php** - guess what  
+- **index.html** - very simple website to get access to the scripts, don't know if this is needed.  
+- **inputdataset.php** - script to input one dataset 
+- **updatedataset.php** - script to update one dataset
+- **reindex.php** - reindexing tools to reindex the phonebook-table after big changes to keep the index (addressID) small. a remnant of the record-table is still in there.
 
-use the editor (Adminer Editor) in the inno.thinyldap webapp from /tools
-Get editor.php from Adminer https://www.adminer.org/editor/ and put it into
-/var/www/tools
 
-to make it simple add a mysqluser to get access with no password and acces to the address.
-(the editor ask the password via fomular)
-access only to the address-table and used only from the lap itself (localhost)
 
-=====
+provided the mysql-username is addressmaster the phonebook-table can be access via editor.php with the following url.  
+http://192.168.1.52:8080/editor.php?username=addressmaster&select=address
+ 
+it will ask for the password then.
 
+so not to publish the technical userdata used in the inno-phonebook you should use a user intended for the editor-access
+Create a user name addressmaster , password pw4am
+
+use ssh
+--
 mysql -u root
   CREATE USER 'addressmaster'@'localhost' IDENTIFIED BY 'pw4am';
-  GRANT ALL ON phonebook_innovaphone.address TO 'addressmaster'@'localhost';
+  GRANT ALL ON phonebook_innovaphone.calllist TO 'addressmaster'@'localhost';
   FLUSH PRIVILEGES;
   exit
+--
 
-=====
-create a mysqluser to access via editor. with no password (comfortyble while calling editor form the app)
+or if you dare you can grant acces without a password. will make access to the phonebook more userfriendly
 
-=====
+use ssh
+--
 mysql -u root
   CREATE USER 'addresseditor'@'localhost';
   GRANT ALL ON phonebook_innovaphone.address TO 'addresseditor'@'localhost';
   FLUSH PRIVILEGES;
   exit
+--
 
-=====
-
-access to the editor.php directly from the app (F3)
-
-=========
-
-Switch in APP to DataCollector (1)  or DataEditor (0)
-DataCollector fills a table with timestamp, extension and Callernumber
-DataEditor use the APP whith incoming and Outgoing calls
-
-Create Callist table
-
-mysql -u root
-  source /var/www/tools/calllist.sql
-  exit
-
-=========
-not really needed
-
-http://<ip of lap>:8080/tools
-
-edit the index.html
-
-call editor.php?username=addressmaster&select=address will show the editor
-for the address table
-
-call editor via url http://<LAPIP>:8080/editor.php?username=addressmaster&select=address&where%5B0%5D%5Bcol%5D=company&where%5B0%5D%5Bop%5D=&where%5B0%5D%5Bval%5D=&where%5B01%5D%5Bcol%5D=&where%5B01%5D%5Bop%5D=&where%5B01%5D%5Bval%5D=&order%5B1%5D=company&limit=50
-calls the editor and shows all datasets with empty company
-
----
-input.php?no=++49123456798&nt=phonr will insert a new dataset with number in phone and no company
-will go to editor with the selection of all datasets with no company set
-
-ask.php?no=+49123456798  will aks if there is a dataset with the number (no) in phone,mobile or home
-if there is no result it calls input.pho with parameters to insert it as ne dataset
-if is a result nothing is done.
- 
+the app will call the editor.php witho keyboard shortcut F3
+(access-data in the preferences-file)
 

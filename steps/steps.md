@@ -1,100 +1,84 @@
-# Step 1
+# Thoughts
 
-## creating the app to get data from myPBX with an incoming call
-Starting an external application for a call.  
-Should be OS independant.
+1. creating the app to get data from myPBX starting the app as  
+  external application while a call happens. Should be OS independant.
+___
+2. Starting with Windows, calling cmd /K with parameters that  
+  works ok  
+___
+3. Test to get access via HTTP(s) of the regular paths of the LAP  
+  http(s)://<LAP IP>/apps/phonebook isn't successful. The LAP-  
+  webserver uses basic access authentication and my skills aren't  
+  high enough to handle with it with the programinglanguage i use  
+  for my app.
+___
+4.  the decision to use an odbc-connector was rejected. I want  
+  to make an app that's portable and has low impact on the host.  
+  An installation of mysql-odbc-connector doesn't come handy here.
+___
+5. decision to create another path to the webserver and create  
+  php-scripts to handle the database via http-calls that  
+  send data to and get data from mysql via http. Using another port  
+  than 80 or 443. i use 8080
+___
+6. develope the app.
+	
+___
+# App
+___
+- store variables in an PreferencesFile (ini) , extension, used webserver  
+  username, password if needed,...
 
-Starting with Windows, calling cmd /K with parameters
+___
+- Popup while a in- or outwards call happens with "no name". i.e. the  
+  LDAP-Server hasn't delivered a name for the called (out) or caller  
+  (in) number. Input Lastname, search while input to names that matches  
+  the name as entered. Input company, can select companies that matches  
+  to the lastname. input firstname, can select matching firstnames  
+  (lastname and company matches)
+___
+- **canceled, using innovapphoen reporting instead :** The app can be  
+  switched to a "record-only"-mode. Calls without a name are stored in  
+  a mysql-table. Later this can be used to fill the phonebook manually
+___
+- to achieve the matching the app has to load the data from the ldap.  
+  a call of a php-script on the ldap webserver delivers the table that is  
+  locally stored in a sqlite-database, which is used for the serching while  
+  enter names and company.
+___
+- to get it simple (see above 3.) create a webaccessible parallel folder  
+  to the original webaccessible folders of the LAP. Don't include it  
+  in the password-management (htdigest) of the webserver Port 80 and 443.  
+- Access via calling the http://<LAPIP>:8080/scriptname.php will be used  
+  to get or set data to the database. Creating some in- and output-php-  
+  scripts that can handle the mysql-accessto the phonebook-table  
+  Create one or two mysql-users that has appropriate access to the  
+  phonebook-table and the record-table.
+___
 
-# Step 2
-
-Testing access to the phonebook table via Http(s) with __no Success__
-
-# Step 3
-
-Further testing access to the phonebook table via Http(s) with __no Success__
-
-# Step 4 1
-
-Decision to use an mysql-odbc-connector to access the phonebook-table
-
-# Step 4 2
-
-It ended with using mysql-odbc-connector and a selfmade  
-programm started as external app from myPBX that checks  
-incoming calls and shows an inputdialog for input names
-and selecting  Numbertype (phone,mobile or home)
-
-i have a running version here.
+- create php-script to get data from mysql. Using GET variables. Delivers as
+  textoutput, read by the app. On php-side sql is used to get the data.  
+  a simple echo or print is used to send the data back to the calling  
+  browser-process, the browser-process take the data into mempory and use  
+  it to create and fill the local sqlite-db.  
+  ####  - *getting the phonebook-table*
+___
+- create php-script to det data to mysql. Using GET variables. On php-side  
+  sql is used to get the data.  
+  returnvalues "ok" or "nok" are sent as text output to the browser-process
+- set single datasets if app is in editor-mode (name,company, numbertype and number)
+- __canceled (see above) :__ set datasets if app is in record-mode (callernumber, timestamp, extension)
+  
 
 # [it's alive](https://youtu.be/xos2MnVxe-c?t=4)
 
-# Step 5 1  
+app exists, php-scripts exists
 
-Testing phase  
+# Testing phase
 
+# #WE ARE HERE#
 # Step 6
-
-scratching head
-
-# Step 6 new deviation
-I thought about the odbc-connector and came to the enlightment that this is  
-not the way to go on further.  
-to avoid installations more than the lokal app itself it could be wise to get
-and put data from and to the mysql-tables NOT via odbc-connectors but access  
-through the webserver itself.
-
-While innovaphone's lighttpd will ask for user and password (htdisgest) when  
-accessed via port 80 or 443 i will enhance the lighthttpd.conf to get access  
-throught another port (8080 f.i.) without asking user and password.  
-The local app will get and set data through this port data to the mysql-table.
-
-# Step 7
-
-create tools and jobs (php on webside and my programlanguage on local side)
-to get and set data into the mysql-table.
-
-I think i will make it as browserbased as possible.
-
-the local app should get the possibility to switch on/off the datainput with  
-unknown incomming numbers.
-And has a a switch to browse to a webside where the mysql-table-data can be managed
-change names, numbers, insert whole sets, delete whole sets, and so on.
-
-# Step 8
-
-some tools created
-(input.php)
-inserting a new dataset with a number at phone,mobile or home via urlparameter
-
-(ask.php)
-check if a number already exists (and call input.php with parameters if not, this
-is not ok as it is not clear what numbertype it is)
-
-the app should ask if it's a phone, mobile or home number
-and call the input.php afterwards.
-mobile could be analyzed +4915 +4916 +4917  for Germany
-
-so the app calls ask.php  and get back how often ths number is already in the address-table  (receivehttpdata)
-
-if 0 the app calls input.php with parameter and asks beforehand the numbertype from the user.
-
-# Step 9 
-
-tools on websewrver created  
-local app can handle data via those tools  
-the local app fetches the address table and put it in a local sqlite database    
-which is used for seaching name, company, firstname phonetype and addressID  
-
-has got F1 for Help and F3 to switch to the editor (webbased)  
-
 # Step 10
-
-testing phase   __<- WE ARE HERE__
-
-
-# 
- 
 # Step 88 
 
 make an installation guide
