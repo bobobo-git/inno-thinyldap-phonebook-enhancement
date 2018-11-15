@@ -7,16 +7,15 @@ noticed in innovaphone forum [here](http://class.innovaphone.com/moodle2/mod/for
 
 myPBX can [call externals apps with incoming calls](http://wiki.innovaphone.com/index.php?title=Reference11r1:Concept_myPBX#Starting_an_external_application_for_a_call)
 
-this app can deal with the parameters myPBX delivers as output while a call in or outwards is happening.
+creating an app to deal with parameters myPBX delivers with an in or outward call.
 
 getting info from the mySQL-table or the phonebook concerning this number  
-and show a dialog to put in additional data to save it as new dataset into the phonebook table
-should work.
+and show a dialog to put in additional data to save it as new dataset into  
+the phonebook table. 
 
 
 
 [steps](steps/steps.md)
+[install](tools/install.txt)
 
-
-
-
+2018-11-15
