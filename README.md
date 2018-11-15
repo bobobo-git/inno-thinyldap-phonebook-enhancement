@@ -1,7 +1,7 @@
 
 # phonebook-enhancement for a the [inno-thinyldap provided by a-schild](https://github.com/a-schild/inno-thinyldap)
 
-What about an ehnhancement to [this phonebook](https://github.com/a-schild/inno-thinyldap) ?
+What about an enhancement to the inno-phonebook ?
 
 noticed in innovaphone forum [here](http://class.innovaphone.com/moodle2/mod/forum/discuss.php?d=20447)
 
@@ -13,6 +13,8 @@ getting info from the mySQL-table or the phonebook concerning this number
 and show a dialog to put in additional data to save it as new dataset into  
 the phonebook table. 
 
+i had some help from [here](https://www.adminer.org/)  
+~~adminer~~
 
 
 [steps](steps/steps.md)
