@@ -1,16 +1,17 @@
-You need access via ssh (in windows 10 : open comandshell and enter  
+You need access via ssh (in windows 10 : open commandshell and enter  
 
-**ssh root@ipoflap**  
+ssh root@<ipoflap>
+
 will ask for password 
 
-and a possibility to edit files on the webserver (i use winscp)
+and a possibility to edit files on the webserver (i use winscp for the most part)
 -making a parallel folder to get access via port 8080so http://<lap-ip>:8080 calls this folder 
 
 
-add to /etc/lighttpd/lighttpd.conf (winscp)
+add aftzer last line to /etc/lighttpd/lighttpd.conf (winscp)
 
 
-   ($SERVER["socket"] == ":8080" {
+   $SERVER["socket"] == ":8080" {
     server.document-root =  "/var/www/tools"
 }
 
