@@ -37,7 +37,7 @@ ___
   to the lastname. input firstname, can select matching firstnames  
   (lastname and company matches)
 ___
-- **canceled, using innovapphoen reporting instead :** The app can be  
+- **canceled, using innovaphone reporting instead :** The app can be  
   switched to a "record-only"-mode. Calls without a name are stored in  
   a mysql-table. Later this can be used to fill the phonebook manually
 ___

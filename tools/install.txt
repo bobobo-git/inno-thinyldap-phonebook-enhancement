@@ -1,14 +1,16 @@
+Requirements: installed inno-thinyldap
+
 You need access via ssh (in windows 10 : open commandshell and enter  
 
-ssh root@<ipoflap>
+ssh root@<Ip of LAP>
 
 will ask for password 
 
 and a possibility to edit files on the webserver (i use winscp for the most part)
--making a parallel folder to get access via port 8080so http://<lap-ip>:8080 calls this folder 
+-making a parallel folder to get access via port 8080 so http://<Ip of LAP>:8080 calls this folder 
 
 
-add aftzer last line to /etc/lighttpd/lighttpd.conf (winscp)
+add aftzr last line to /etc/lighttpd/lighttpd.conf (winscp)
 
 
    $SERVER["socket"] == ":8080" {
@@ -23,11 +25,11 @@ mkdir /var/www/tools
 
 --
 upload content of webserver to /var/www/tools
-- **adminer.php** - tools to handle mysql-databases (replacement for phpmyadmin) just in case of needed when fooling around with mysql-user settings
-- **editor.php** - tool to edit mysql-tables , enhanced by a little twist to close the browser window when clicking "Abmelden"  
-- **askitall.php** - script to get the phonebook as sql insert-script
-- **dbconnect.php** - mysqlconnection, put user appsword, tablename here
-- **dbsdisconnect.php** - guess what  
+- **adminer.php** - tools to handle mysql-databases (replacement for phpmyadmin) just in case needed when fooling around with mysql-user settings
+- **editor.php** - tool to edit mysql-tables , enhanced by a little twist to close the browser window by clicking "Abmelden"  
+- **askitall.php** - script to get the phonebook as a sql insert-script
+- **dbconnect.php** - mysqlconnection, put user password, tablename here
+- **dbdisconnect.php** - guess what  
 - **index.html** - very simple website to get access to the scripts, don't know if this is needed.  
 - **inputdataset.php** - script to input one dataset 
 - **updatedataset.php** - script to update one dataset
@@ -36,7 +38,7 @@ upload content of webserver to /var/www/tools
 
 
 provided the mysql-username is addressmaster the phonebook-table can be access via editor.php with the following url.  
-http://192.168.1.52:8080/editor.php?username=addressmaster&select=address
+http://<IP Of LAP>:8080/editor.php?username=addressmaster&select=address
  
 it will ask for the password then.
 
@@ -63,6 +65,6 @@ mysql -u root
   exit
 --
 
-the app will call the editor.php witho keyboard shortcut F3
+the app will call the editor.php with keyboard shortcut F3
 (access-data in the preferences-file)
 
