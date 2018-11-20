@@ -6,11 +6,11 @@ ssh root@<Ip of LAP>
 
 will ask for password 
 
-and a possibility to edit files on the webserver (i use winscp for the most part)
--making a parallel folder to get access via port 8080 so http://<Ip of LAP>:8080 calls this folder 
+and a possibility to copy,edit files on the webserver (i use winscp for the most part)
+-making a parallel folder to get access via port 8080 so http://<Ip of LAP>:8080 show this folder 
 
 
-add aftzr last line to /etc/lighttpd/lighttpd.conf (winscp)
+add after last line to /etc/lighttpd/lighttpd.conf (winscp)
 
 
    $SERVER["socket"] == ":8080" {
@@ -37,11 +37,6 @@ upload content of webserver to /var/www/tools
 
 
 
-provided the mysql-username is addressmaster the phonebook-table can be access via editor.php with the following url.  
-http://<IP Of LAP>:8080/editor.php?username=addressmaster&select=address
- 
-it will ask for the password then.
-
 so not to publish the technical userdata used in the inno-phonebook you should use a user intended for the editor-access
 Create a user name addressmaster , password pw4am
 
@@ -49,7 +44,7 @@ use ssh
 --
 mysql -u root
   CREATE USER 'addressmaster'@'localhost' IDENTIFIED BY 'pw4am';
-  GRANT ALL ON phonebook_innovaphone.calllist TO 'addressmaster'@'localhost';
+  GRANT ALL ON phonebook_innovaphone.address TO 'addressmaster'@'localhost';
   FLUSH PRIVILEGES;
   exit
 --
@@ -64,6 +59,15 @@ mysql -u root
   FLUSH PRIVILEGES;
   exit
 --
+to get access to the mysql-table you can call the editor.php with some parameters
+  
+http://<IP Of LAP>:8080/editor.php?username=addressmaster&select=address
+will ask for a password
+
+http://<IP Of LAP>:8080/editor.php?username=addresseditor&select=address
+won't ask for a password
+
+the index.html uses some samples to get access to the mysql-table
 
 the app will call the editor.php with keyboard shortcut F3
 (access-data in the preferences-file)
