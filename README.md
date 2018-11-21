@@ -1,5 +1,5 @@
 
-# phonebook-enhancement for a the [inno-thinyldap provided by a-schild](https://github.com/a-schild/inno-thinyldap)
+# inno-thinyldap-phonebook-enhancement for a the [inno-thinyldap provided by a-schild](https://github.com/a-schild/inno-thinyldap)
 
 What about an enhancement to the inno-phonebook ?
 
