@@ -76,15 +76,13 @@ ___
 
 app exists, php-scripts exists
 
-
-
-# #WE ARE HERE#
 # Step 6
 Some tunings concerning detection if the app is caleld by an incoming call or by buttonclick
 
-# Testing phase
-# #WE ARE HERE#
-# Step 10
+# Step 7
+- Testing phase
+- __WE ARE HERE__
+
 # Step 88 
 
 make an installation guide
