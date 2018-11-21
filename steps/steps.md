@@ -37,13 +37,15 @@ ___
   to the lastname. input firstname, can select matching firstnames  
   (lastname and company matches)
 ___
+- Jump to  dataset in browser if Button clicked in myPBX with Callername 'Umbekannt', searching for the Callernumber
+___
 - **canceled, using innovaphone reporting instead :** The app can be  
   switched to a "record-only"-mode. Calls without a name are stored in  
   a mysql-table. Later this can be used to fill the phonebook manually
 ___
-- to achieve the matching the app has to load the data from the ldap.  
+- to achieve matching the app has to load the data from the ldap.  
   a call of a php-script on the ldap webserver delivers the table that is  
-  locally stored in a sqlite-database, which is used for the serching while  
+  locally stored in a sqlite-database, which is used for the searching while  
   enter names and company.
 ___
 - to get it simple (see above 3.) create a webaccessible parallel folder  
@@ -74,10 +76,14 @@ ___
 
 app exists, php-scripts exists
 
-# Testing phase
+
 
 # #WE ARE HERE#
 # Step 6
+Some tunings concerning detection if the app is caleld by an incoming call or by buttonclick
+
+# Testing phase
+# #WE ARE HERE#
 # Step 10
 # Step 88 
 
