@@ -67,7 +67,7 @@ will ask for a password
 http://<IP Of LAP>:8080/editor.php?username=addresseditor&select=address
 won't ask for a password
 
-the index.html uses some samples to get access to the mysql-table
+the index.html uses some samples to get access to the mysql-table via editor.php
 
 the app will call the editor.php with keyboard shortcut F3
 (access-data in the preferences-file)
