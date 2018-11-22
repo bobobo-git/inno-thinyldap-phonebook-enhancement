@@ -22,5 +22,6 @@ if($result = $db->query($query)){
         }
     }
 }
+$result->close();
 require("dbdisconnect.php");
 ?>

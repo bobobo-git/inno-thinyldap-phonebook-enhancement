@@ -451,7 +451,7 @@ selectActionPrint($u){echo"<fieldset><legend>".'Aktion'."</legend><div>","<input
 selectCommandPrint(){return
 true;}function
 selectImportPrint(){return
-true;}function
+true;} function 
 selectEmailPrint($tb,$e){if($tb){print_fieldset("email",'E-Mail',$_POST["email_append"]);echo"<div>",script("qsl('div').onkeydown = partialArg(bodyKeydown, 'email');"),"<p>".'Von'.": <input name='email_from' value='".h($_POST?$_POST["email_from"]:$_COOKIE["adminer_email"])."'>\n",'Betreff'.": <input name='email_subject' value='".h($_POST["email_subject"])."'>\n","<p><textarea name='email_message' rows='15' cols='75'>".h($_POST["email_message"].($_POST["email_append"]?'{$'."$_POST[email_addition]}":""))."</textarea>\n","<p>".script("qsl('p').onkeydown = partialArg(bodyKeydown, 'email_append');","").html_select("email_addition",$e,$_POST["email_addition"])."<input type='submit' name='email_append' value='".'Einfügen'."'>\n";echo"<p>".'Anhänge'.": <input type='file' name='email_files[]'>".script("qsl('input').onchange = emailFileChange;"),"<p>".(count($tb)==1?'<input type="hidden" name="email_field" value="'.h(key($tb)).'">':html_select("email_field",$tb)),"<input type='submit' name='email' value='".'Abschicken'."'>".confirm(),"</div>\n","</div></fieldset>\n";}}function
 selectColumnsProcess($e,$u){return
 array(array(),array());}function
