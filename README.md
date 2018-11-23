@@ -1,5 +1,5 @@
 
-__inno-thinyldap-phonebook-enhancement__ for a the [inno-thinyldap provided by a-schild](https://github.com/a-schild/inno-thinyldap)
+__inno-thinyldap-phonebook-enhancement__ for a the [inno-thinyldap provided by a-schild 2.6](https://github.com/a-schild/inno-thinyldap)
 
 What about an enhancement to the inno-phonebook ?
 
