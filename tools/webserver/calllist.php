@@ -1,10 +1,14 @@
-<html>
-  <head>
+<!DOCTYPE html>
+<html lang="de" dir="ltr">  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="robots" content="noindex">
+
     <meta name="generator"
     content="HTML Tidy for HTML5 (experimental) for Windows https://github.com/w3c/tidy-html5/tree/c63cc39" />
     <title>Call Liste</title>
     <STYLE>
-<?php	
+<?php
+require ('defs.php');	
 
 //if (ini_set("memory_limit",-1)=="false"){
 //	echo "nö";
@@ -12,8 +16,9 @@
 //}
 echo "
 body {
-	background: #EEFFFF;
+	background: #F4FFF4;
 	font-family: sans-serif;
+	font-size:14px;
 }
 table,th,td{
 	background: #EEEEFF;
@@ -71,7 +76,9 @@ $query = 'select cp.cdrp_call_flow ,c.local_stamp from cdr_properties cp, cdrs c
 $result = pg_query($query);
 
 $i = 0;
-echo '<html><body><table><tr>';
+echo '<html><body>';
+echo '<p><a href="index.html">&Uuml;bersicht</a></p>';
+echo '<table><tr>';
 echo '<th>Intern</th><th>extern</th><th>Wann</th>';
 
 $default="<h3>Es konnten keine unbekannten Nummern gefunden werden</h3>";
@@ -118,7 +125,7 @@ while ($row = pg_fetch_row($result))
 				$resultm->close();
 			}
             
-			$link="http://192.168.1.52:8080/inputdataset.php?ptype=phone&number=".urlencode($nummer)."&showlast=1";
+			$link=$webserver."/inputdataset.php?ptype=phone&number=".urlencode($nummer)."&showlast=1";
 			/*$link="http://192.168.1.52:8080/editor.php?username=addresseditor&select=address&where%5B0%5D%5Bcol%5D=&where%5B0%5D%5Bop%5D=&where%5B0%5D%5Bval%5D=".urlencode($nummer)."&where%5B01%5D%5Bcol%5D=&where%5B01%5D%5Bop%5D=&where%5B01%5D%5Bval%5D=&limit=50";
 			*/
 			

@@ -1,14 +1,29 @@
-Requirements: installed inno-thinyldap, myPBX should be active , Call-List via innovaphone reporting-app
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/strict.dtd">
+<html>
+<head>
+<META http-equiv=Content-Type content="text/html; charset=UTF-8">
+<title>Exported from Notepad++</title>
+<style type="text/css">
+span {
+	font-family: 'DejaVu Sans Mono';
+	font-size: 12pt;
+	color: #FFFFBF;
+}
+.sc0 {
+}
+</style>
+</head>
+<body>
+<div style="float: left; white-space: pre; line-height: 1; background: #000040; "><span class="sc0">Requirements: installed inno-thinyldap, myPBX should be active , Call-List via innovaphone reporting-app
 
 You need access via ssh (in windows 10 : open commandshell and enter  
 
-ssh root@<Ip of LAP>
+ssh root@&lt;Ip of LAP&gt;
 
 will ask for password 
 
-and a possibility to copy,edit files on the webserver (i use winscp for the most part)  
-
-
+and a possibility to copy,edit files on the webserver (i use winscp for the most part)
+-making a parallel folder to get access via port 8080 so http://&lt;Ip of LAP&gt;:8080 show this folder 
 
 
 add after last line to /etc/lighttpd/lighttpd.conf (winscp)
@@ -21,29 +36,22 @@ add after last line to /etc/lighttpd/lighttpd.conf (winscp)
 
 make directory /var/wwww/tools (ssh)
 
---- ssh ---
-
 mkdir /var/www/tools
-service lighttpd restart
 
---- ssh ---
-after restarting the webserver this folder can be accessed via http://<Ip of LAP>:8080
-
-the port 8080 is an example and used here, you can use another port but have to change this in the related occurrences.
 
 --
 upload content of webserver to /var/www/tools
 - **adminer.php** - tools to handle mysql-databases (replacement for phpmyadmin) just in case needed when fooling around with mysql-user settings
+- **editor.php** - tool to edit mysql-tables , enhanced by a little twist to close the browser window by clicking "Abmelden"  
 - **askitall.php** - script to get the phonebook as a sql insert-script
-- **calllist.php** - shows call that have no names, can put the phonenumbers in the phonebook and asks more data copncerning the phonenumber
 - **dbconnect.php** - mysqlconnection, put user password, tablename here
 - **dbdisconnect.php** - guess what  
-- **defs.php** - holds preferences concerning the webserver
-- **editor.php** - tool to edit mysql-tables , enhanced by a little twist get access to the phonebook-overview page  
+- **index.html** - very simple website to get access to the scripts, don't know if this is needed.  
 - **inputdataset.php** - script to input one dataset 
-- **reindex.php** - reindexing tools to reindex the phonebook-table after big changes to keep the index (addressID) small. a remnant of the record-table is still in there.
 - **updatedataset.php** - script to update one dataset
-- **index.html** - OverviewPage to get access to the PhonebookEditor or Call-List
+- **reindex.php** - reindexing tools to reindex the phonebook-table after big changes to keep the index (addressID) small. a remnant of the record-table is still in there.
+
+
 
 so not to publish the technical userdata used in the inno-phonebook you should use a user intended for the editor-access
 Create a user name addressmaster , password pw4am
@@ -69,10 +77,10 @@ mysql -u root
 --
 to get access to the mysql-table you can call the editor.php with some parameters
   
-http://<IP Of LAP>:8080/editor.php?username=addressmaster&select=address
+http://&lt;IP Of LAP&gt;:8080/editor.php?username=addressmaster&amp;select=address
 will ask for a password
 
-http://<IP Of LAP>:8080/editor.php?username=addresseditor&select=address
+http://&lt;IP Of LAP&gt;:8080/editor.php?username=addresseditor&amp;select=address
 won't ask for a password
 
 the index.html uses some samples to get access to the mysql-table via editor.php
@@ -87,3 +95,5 @@ The Calllist.php can show Callnumbers of calls that have no name at the time of 
 the App loads some access-data from the preference-file gdfm.ini located in the same folder as the app itself (make a folder where you put both in)
 If the App is called by myPBX it will pull all Data  (Program gdfmhelper.exe) from the actual phonebook to a local sqlite-database to get quicker access as the app shows proposals for company and firstname if arrow-down is pressed in the respective fields.
 
+</span></div></body>
+</html>

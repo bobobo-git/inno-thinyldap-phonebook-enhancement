@@ -1,6 +1,7 @@
 <?php
 /** Input one Number to address without Company, name or other stuff.
 */
+require ('defs.php');
 require("dbconnect.php");
 if ($db->connect_errno) {
     echo "Failed to connect to MySQL: (" . $db->connect_errno . ") " . $db->connect_error;
@@ -41,7 +42,7 @@ if (!$db->query($ins)){
 		if($resultm->num_rows) {
 			while($row = mysqli_fetch_object($resultm)){
 				echo $row->c;
-				$hh="http://192.168.1.52:8080/editor.php?username=addresseditor&edit=address&where%5BaddressId%5D=".$row->c;
+				$hh=$webserver."/editor.php?username=addresseditor&edit=address&where%5BaddressId%5D=".$row->c;
 				echo $hh;
 				header('Location: '.$hh.'');
 			}
