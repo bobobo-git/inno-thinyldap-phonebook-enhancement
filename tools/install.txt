@@ -87,3 +87,6 @@ The Calllist.php can show Callnumbers of calls that have no name at the time of 
 the App loads some access-data from the preference-file gdfm.ini located in the same folder as the app itself (make a folder where you put both in)
 If the App is called by myPBX it will pull all Data  (Program gdfmhelper.exe) from the actual phonebook to a local sqlite-database to get quicker access as the app shows proposals for company and firstname if arrow-down is pressed in the respective fields.
 
+myPBX should call the APP with Parameter n:$n, N:$N, I:$I, u:$u, d:"$d", C:$c
+and while a call is picked.
+
