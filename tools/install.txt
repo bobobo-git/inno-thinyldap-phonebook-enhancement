@@ -1,10 +1,12 @@
 Requirements: installed inno-thinyldap, myPBX should be active , Call-List via innovaphone reporting-app
 
-You need access via ssh (in windows 10 : open commandshell and enter  
+You need access via ssh (in windows 10 (with activated WSL (windows Linux Support) : open commandshell and enter  
 
 ssh root@<Ip of LAP>
-
 will ask for password 
+
+or with Putty dial in a ssh-Session at the <Ip of LAP>, enter username (root, if not changed) and password (iplinux, if not changed)
+
 
 and a possibility to copy,edit files on the webserver (i use winscp for the most part)  
 
