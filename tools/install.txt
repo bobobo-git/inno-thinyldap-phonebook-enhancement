@@ -16,7 +16,7 @@ and a possibility to copy,edit files on the webserver (i use winscp for the most
 add after last line to /etc/lighttpd/lighttpd.conf (winscp)
 
 
-   $SERVER["socket"] == ":8080" {
+$SERVER["socket"] == ":8080" {
     server.document-root =  "/var/www/tools"
 }
 

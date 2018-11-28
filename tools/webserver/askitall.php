@@ -12,12 +12,12 @@ if($result = $db->query($query)){
         while($row = mysqli_fetch_object($result)){
 			echo 'Insert into address (addressid,company,firstname,lastname,phone,mobile,home) values (\'';
           echo $row->addressid.'\',\'';
-		  echo $row->company.'\',\'';
-		  echo $row->firstname.'\',\'';
-		  echo $row->lastname.'\',\'';
-		  echo $row->phone.'\',\'';
-		  echo $row->mobile.'\',\'';
-		  echo $row->home.'\'';
+		  echo str_replace("'","''",$row->company).'\',\'';
+		  echo str_replace("'","''",$row->firstname).'\',\'';
+		  echo str_replace("'","''",$row->lastname).'\',\'';
+		  echo str_replace("'","''",$row->phone).'\',\'';
+		  echo str_replace("'","''",$row->mobile).'\',\'';
+		  echo str_replace("'","''",$row->home).'\'';
 		  echo ');'."\n";
         }
     }
