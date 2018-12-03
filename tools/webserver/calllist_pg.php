@@ -6,12 +6,13 @@
     <meta name="generator"
     content="HTML Tidy for HTML5 (experimental) for Windows https://github.com/w3c/tidy-html5/tree/c63cc39" />
     <title>Call Liste</title>
+
     <STYLE>
 <?php
 require ('defs.php');	
 
 //if (ini_set("memory_limit",-1)=="false"){
-//	echo "n�";
+//	echo "nö";
 //	exit;
 //}
 echo "
@@ -20,23 +21,8 @@ body {
 	font-family: sans-serif;
 	font-size:14px;
 }
-table,th,td{
-	background: #EEEEFF;
-	border: thin solid #00CC33;
-   border-collapse: collapse;
-}
-tr,td{
-	height: 20px;
-}
-td{
-	background: #FEFEFF;
-	border: thin solid #00CC33;
-}
- .inh{
-	 width: 500px;
-	 margin-left:20px;
-     }
- ";
+";
+
 
  ?>
 </STYLE> 
@@ -50,10 +36,10 @@ td{
 /*
 mysql anbindung
 */
-require("dbconnect.php");
-if ($db->connect_errno) {
-    echo "Failed to connect to MySQL: (" . $db->connect_errno . ") " . $db->connect_error;
-}
+//require("dbconnect.php");
+//if ($db->connect_errno) {
+//    echo "Failed to connect to MySQL: (" . $db->connect_errno . ") " . $db->connect_error;
+//}
 /*
 pg anbindung
 */
@@ -62,6 +48,7 @@ $port = '5432';
 $database = 'innovaphone-reporting';
 $user = 'postgres';
 $password = 'postgres';
+
 
 
 $connectString = 'host='.$host.' port='.$port.' dbname='.$database.' user='.$user.' password='. $password;
@@ -77,11 +64,23 @@ $query = 'select cp.cdrp_call_flow , c.local_stamp from cdr_properties cp, cdrs 
 $result = pg_query($query);
 
 $i = 0;
-echo '<html><body>';
-echo '<p><a href="index.html">&Uuml;bersicht</a></p>';
+if ($_POST["t"]==0){
+	// nur für Auswahl heute Seitenrefresh
+echo '<script language=javascript>
+ Timer=setTimeout("location.reload();", 10000);
+</script>';
+}
+echo '<body>';
+
+
+echo '<p><a href="index.html">zur Übersicht</a>';
+if ($_POST["t"]==0){
+	echo ' refresh alle 10 Sekunden</p>';
+}
+
 //echo $_POST['t'];
 if ($_POST['t']==0) {}
-echo '<form action="calllist.php" method="POST">
+echo '<form action="calllist_pg.php" method="POST">
     <label>Tage:
     <select name="t" size="1">';
 if ($_POST['t']==0)  $sel0="selected";
@@ -107,11 +106,11 @@ echo'    </select>
 	//<button type="reset">Abbrechen</button>
 echo '</form>';
 
+//{{to,21,vertrieb,Vertrieb},{setup-to,0073217948,,Dirr Barbara Ostertag GmbH },{scf,24,michael.palz,},{alert-from,0073217948,,Dirr Barbara Ostertag GmbH },{conn-from,0073217948,,Dirr Barbara Ostertag GmbH },{disc-to,,,},{rel-from,0073217948,,}}
+echo '<table>';
+echo '<tr><th>Wann</th><th>intern</th><th></th><th>extern</th><th>name</th></tr>';
 
-echo '<table><tr>';
-echo '<th>Intern</th><th>extern</th><th>Wann</th>';
 
-$default="<h3>Es konnten keine unbekannten Nummern gefunden werden</h3>";
 while ($row = pg_fetch_row($result)) 
 {
 	
@@ -120,16 +119,19 @@ while ($row = pg_fetch_row($result))
 	$y = 0;
 	while ($y < $count)
 	{
-		//echo $y;
+		//echo "<br>".$y;
 		$c_row = current($row);
-		//echo $c_row;
+		//echo $c_row."<br>";
 		if ($y==0){
-			//echo $y."-". $c_row."<br>";
-			$seppi=explode(",",$c_row);
-			$iname=explode("}",$seppi[3])[0];
-			$nummer=$seppi[5];
-			$oname=trim(trim($seppi[7],"}"));
+			$line=split(',',$c_row);
+		
+			if ($line[0]=='{{from'){
+				$dir='<span style="color:red"> → </span>';
+			}elseif($line[0]=='{{to'){
+				$dir='<span style="color:green"> ← </span>';
+			}
 
+			$nummer=$line[5];
 			if (substr($nummer,0,3)=="000")	{
 				$nummer="+".substr($nummer,3);
 			}
@@ -138,56 +140,38 @@ while ($row = pg_fetch_row($result))
 			}elseif (substr($nummer,0,1)=="0"){
 				$nummer="+49731".substr($nummer,1);
 			}
-			$it=0;
+$iname=str_Replace('}','',$line[3]);
+$oname=str_Replace('}','',$line[7]);
 
-			if (strlen($nummer)>7){
-				$queryinsthere="select count(*) as 'c' from address where '$nummer' in (phone,mobile,home);";
-				//echo $queryinsthere;
-				if($resultm = $db->query($queryinsthere)){
-					if($resultm->num_rows) {
-						while($rowi = mysqli_fetch_object($resultm)){
-							if ($rowi->c==1){
-								$it=1;
-							}
-						}
-					}
-				}
-				$resultm->close();
-			}
-            
-			$link=$webserver."/inputdataset.php?ptype=phone&number=".urlencode($nummer)."&showlast=1";
-			/*$link="http://192.168.1.52:8080/editor.php?username=addresseditor&select=address&where%5B0%5D%5Bcol%5D=&where%5B0%5D%5Bop%5D=&where%5B0%5D%5Bval%5D=".urlencode($nummer)."&where%5B01%5D%5Bcol%5D=&where%5B01%5D%5Bop%5D=&where%5B01%5D%5Bval%5D=&limit=50";
-			*/
-			
-			if ((strlen($nummer)<8)or ($oname) or ($nummer=="+49731") or ($it==1)){
-			} else {
-				unset($default); //default ausgabe klschen
-				echo "<tr><td>$iname </td><td><a target='edt' href='$link'>$nummer</a></td>";
-			}
-			
-		}else{
-			//echo $y."-". $c_row."<br>";
-			if ((strlen($nummer)<8)or ($oname) or ($nummer=="+49731") or ($it==1)){
-			} else {
-				echo '<td>' . $c_row . '</td></tr>';
-			}
+			//echo " ". str_Replace('}','',$line[3]).$dir.$nummer.' '.$line[6]." ".str_replace('}','',$line[7]);
+		}
+		if ($y==1){
+			$wann=$c_row;
 		}
 		next($row);
 		$y = $y + 1;
 	}
-	//echo '</tr>';
+	if (strlen($line[5])>3){
+		$out.= "<tr><td>$wann</td><td>$iname</td><td>$dir</td><td>$nummer</td><td>$oname</td></tr>";
+	}
+	//echo "<br>";
 	$i = $i + 1;
 }
 pg_free_result($result);
+$out.= '</table>';
+echo $out;
+ob_flush();
+flush();
 
-echo '</table>';
+//echo '</table>';
 echo $default;
-/*Datenbank abhängen*/
+/*Datenbank abhÃ¤ngen*/
 
-require("dbdisconnect.php");
+//require("dbdisconnect.php");
 //echo ini_get ("memory_limit");
 
 ?>
 </div>
+
 </body>
 </html>
