@@ -16,9 +16,14 @@ and a possibility to copy,edit files on the webserver (i use winscp for the most
 add after last line to /etc/lighttpd/lighttpd.conf (winscp)
 
 
-$SERVER["socket"] == ":8080" {
-    server.document-root =  "/var/www/tools"
-}
+$SERVER["socket"] == ":8080" { server.document-root =  "/var/www/tools" }
+
+if you switch from force https to not force https this changes will be lost as the lighttpd.conf will be rebuild
+You can enter the 3 lines afterwards again.
+
+Or you can hack the /var/www/include-main.php
+include the line $config .= '$SERVER["socket"] == ":8080" {server.document-root =  "/var/www/tools"}';
+after line 2206 so the $config contains the enhancement even when switching
 
 
 make directory /var/wwww/tools (ssh)
