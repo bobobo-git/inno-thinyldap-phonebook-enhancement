@@ -20,9 +20,18 @@ body {
 	background: #F4FFF4;
 	font-family: sans-serif;
 	font-size:14px;
+}";
+/*
+table,th,td{
+	border: solid #ccc;
+	border-width: thin;
+	
+	border-collapse: collapse;
+	
 }
-";
 
+";
+*/
 
  ?>
 </STYLE> 
@@ -58,16 +67,17 @@ if (!$link){
 	die('Error: Could not connect: ' . pg_last_error());
 }
 if (!isset($_POST["t"])) $_POST["t"]=0;
-$query = 'select cp.cdrp_call_flow , c.local_stamp from cdr_properties cp, cdrs c where cp.cdr_id=c.id and date(c.local_stamp)=date(current_date)-'.$_POST["t"].' order by c.local_stamp desc , cdr_id desc';
-
+//$query = "select cp.cdrp_call_flow , ' dura:',cp.alert_duration,' durc:',cp.conn_duration,' ts:',c.local_stamp from cdr_properties cp, cdrs c where cp.cdr_id=c.id and date(c.local_stamp)=date(current_date)-".$_POST["t"]." order by local_stamp , cdr_id";
+$query="SELECT c.cn, c.cdr_e164, c.cdr_h323, c.cdr_dir, cp.cdrp_call_flow, cp.alert_duration, cp.conn_duration, c.local_stamp FROM cdrs c, cdr_properties cp WHERE (c.id = cp.cdr_id) and date(c.local_stamp)=date(current_date)-".$_POST["t"]."ORDER BY c.local_stamp DESC;";
+//echo $query;
 
 $result = pg_query($query);
 
 $i = 0;
-if ($_POST["t"]==0){
+if ($_POST["t"]==22){
 	// nur für Auswahl heute Seitenrefresh
-echo '<script language=javascript>
- Timer=setTimeout("location.reload();", 60000);
+	echo '<script language=javascript>
+		Timer=setTimeout("location.reload();", 60000);
 </script>';
 }
 echo '<body>';
@@ -79,8 +89,8 @@ if ($_POST["t"]==0){
 }
 echo '<p>';
 //echo $_POST['t'];
-if ($_POST['t']==0) {}
-echo '<form action="calllist_pg.php" method="POST">
+
+echo '<form action="calllist_pg2.php" method="POST">
     <label>Tage:
     <select name="t" size="1">';
 if ($_POST['t']==0)  $sel0="selected";
@@ -106,62 +116,54 @@ echo'    </select>
 	//<button type="reset">Abbrechen</button>
 echo '</form>';
 
-//{{to,21,vertrieb,Vertrieb},{setup-to,0073217948,,Dirr Barbara Ostertag GmbH },{scf,24,michael.palz,},{alert-from,0073217948,,Dirr Barbara Ostertag GmbH },{conn-from,0073217948,,Dirr Barbara Ostertag GmbH },{disc-to,,,},{rel-from,0073217948,,}}
-echo '<table>';
-echo '<tr><th>Wann</th><th>intern</th><th></th><th>extern</th><th>name</th></tr>';
-
-
-while ($row = pg_fetch_row($result)) 
-{
-	
+echo "<table>";
+echo "<tr><th>Wann</th><th>Intern</th><th>Richtung</th><th>Extern</th><th>Dauer</th><th>Alarmdauer</th></tr>";
+while ($row = pg_fetch_row($result)) {
 	$count = count($row);
 	//echo $count."count";
-	$y = 0;
-	while ($y < $count)
-	{
-		//echo "<br>".$y;
-		$c_row = current($row);
-		//echo $c_row."<br>";
-		if ($y==0){
-			$line=split(',',$c_row);
+		$cn=$row[0];
+		$cdr_e162=$row[1];
+		$cdr_h323=$row[2];
+		$cdr_dir=$row[3];
+		$cdr_flow=$row[4];
+		$calldur=$row[5];
+		$alertdur=$row[6];
+		$lts=$row[7];
+		$flow=split(',',$cdr_flow);
+		if (substr_count($cdr_flow,"forwarded")==0){
+			$calltonr=$flow[9];
+			if ($calltonr=="") $calltonr="undef";
+			$calltoln=$flow[11];
+			if ($calltoln=="") $calltonr="undef";
+		}else{
+			$calltonr="→".$flow[21];
+			if ($calltonr=="") $calltonr="undef";
+			$calltoln=$flow[23];
+			if ($calltoln=="") $calltonr="undef";
+		}
+		$callto=str_replace('}','',$calltonr.", ".$calltoln);
+			
+		if ($cdr_dir=="from") {
+			
+			$cdr_dir="von";
+			$cdr_dirr='<span style="color:red"> → </span>';
+		}
+		if ($cdr_dir=="to") {
+			$cdr_dir="an";
+			$cdr_dirr='<span style="color:green"> ← </span>';
+		}
 		
-			if ($line[0]=='{{from'){
-				$dir='<span style="color:red"> → </span>';
-			}elseif($line[0]=='{{to'){
-				$dir='<span style="color:green"> ← </span>';
-			}
+		echo "<tr><td>$lts</td><td>$cdr_dir $cn ($cdr_e162) $cdr_h323</td><td>$cdr_dirr</td><td>$callto</td><td>$calldur</td><td>$alertdur</td></tr>";
+		//echo "<tr><td>$cdr_flow</td></tr>";
+		
+		
+}	
+	
+echo "</table>";
 
-			$nummer=$line[5];
-			if (substr($nummer,0,3)=="000")	{
-				$nummer="+".substr($nummer,3);
-			}
-			elseif (substr($nummer,0,2)=="00"){
-				$nummer="+49".substr($nummer,2);
-			}elseif (substr($nummer,0,1)=="0"){
-				$nummer="+49731".substr($nummer,1);
-			}
-$iname=str_Replace('}','',$line[3]);
-$oname=str_Replace('}','',$line[7]);
-
-			//echo " ". str_Replace('}','',$line[3]).$dir.$nummer.' '.$line[6]." ".str_replace('}','',$line[7]);
-		}
-		if ($y==1){
-			$wann=$c_row;
-		}
-		next($row);
-		$y = $y + 1;
-	}
-	if (strlen($line[5])>3){
-		$out.= "<tr><td>$wann</td><td>$iname</td><td>$dir</td><td>$nummer</td><td>$oname</td></tr>";
-	}
-	//echo "<br>";
-	$i = $i + 1;
-}
 pg_free_result($result);
-$out.= '</table>';
-echo $out;
-ob_flush();
-flush();
+
+
 
 //echo '</table>';
 echo $default;
