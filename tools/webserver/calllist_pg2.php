@@ -125,6 +125,7 @@ echo "<tr><th class='t'>Wann</th><th class='t'>Intern</th><th class='t'><img src
 while ($row = pg_fetch_row($result)) {
 	$count = count($row);
 	$show=1;
+	$done=0;
 	$extern="";
 	$zzz="";
 	//echo $count."count";
@@ -173,6 +174,7 @@ while ($row = pg_fetch_row($result)) {
 
 				case "alert-to":
 				case "alert-from":
+				//$extern.="<tr><td><img src='alert.jpg'></td><td>$test[1]</td><td>$test[3]</td></tr>";
 				$extern.="<tr><td><img src='alert.jpg'></td><td>$test[1]</td><td>$test[3]</td></tr>";
 				break;
 
@@ -182,15 +184,19 @@ while ($row = pg_fetch_row($result)) {
 				break;
 
 				case "transfer-from":
-				$zzz=" → ";
+				$extern.="<tr><td><img src='cf.jpg'></td><td>$test[1]</td><td>$test[3]</td></tr>";
+				$done=1;
 				break;
 
 				case "transfer-to":
-				$zzz=" ← ";
+				$extern.="<tr><td><img src='cf.jpg'></td><td>$test[1]</td><td>$test[3]</td></tr>";
+				$done=1;
 				break;
 
 				case"connected":
+				if ($done==0){
 				$extern.="<tr><td>$zzz<img src='conn.jpg'></td><td>$test[1]</td><td>$test[3]</td></tr>";
+				}
 				break;
 			}
 		}
