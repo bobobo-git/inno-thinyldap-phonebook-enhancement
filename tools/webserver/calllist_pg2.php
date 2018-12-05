@@ -7,7 +7,7 @@
     content="HTML Tidy for HTML5 (experimental) for Windows https://github.com/w3c/tidy-html5/tree/c63cc39" />
     <title>Call Liste</title>
 
-    <STYLE>
+    
 <?php
 require ('defs.php');	
 
@@ -16,29 +16,33 @@ require ('defs.php');
 //	exit;
 //}
 echo "
+<style>
 body {
 	background: #F4FFF4;
+	
 	font-family: sans-serif;
 	font-size:14px;
-}";
-/*
-table,th,td{
+}
+.t,.tt{
+	background:#fff;
 	border: solid #ccc;
 	border-width: thin;
-	
 	border-collapse: collapse;
 	
 }
+.tt{vertical-align: top;
+font-size:90%;}
 
-";
-*/
+}
+</style>	";
+
 
  ?>
-</STYLE> 
 
   </head>
   
   <body>
+
 
   <div class="inh">
 <?php
@@ -80,7 +84,7 @@ if ($_POST["t"]==22){
 		Timer=setTimeout("location.reload();", 60000);
 </script>';
 }
-echo '<body>';
+//echo '<body>';
 
 
 echo '<p><a href="index.html">zur Übersicht</a>';
@@ -116,32 +120,83 @@ echo'    </select>
 	//<button type="reset">Abbrechen</button>
 echo '</form>';
 
-echo "<table>";
-echo "<tr><th>Wann</th><th>Intern</th><th>Richtung</th><th>Extern</th><th>Dauer</th><th>Alarmdauer</th></tr>";
+echo "<table class='t'>";
+echo "<tr><th class='t'>Wann</th><th class='t'>Intern</th><th class='t'><img src='dir.jpg'></th><th class='t'><img src='state.jpg'>Extern</th><th class='t'>Dauer</th><th class='t'>Alert</th></tr>";
 while ($row = pg_fetch_row($result)) {
 	$count = count($row);
+	$show=1;
+	$extern="";
+	$zzz="";
 	//echo $count."count";
 		$cn=$row[0];
 		$cdr_e162=$row[1];
 		$cdr_h323=$row[2];
 		$cdr_dir=$row[3];
 		$cdr_flow=$row[4];
-		$calldur=$row[5];
-		$alertdur=$row[6];
+		$calldur=$row[6];
+		
+		$alertdur=$row[5];
+		//if (($calldur==0)or ($alertdur==0)) $show=0;
+		
+		if (($alertdur==0)or($calldur==0)) $show=0;
+		if (($calldur==0) and ($alertdur==0)) $show=1;
+		if (substr_count($cdr_flow,"cf-from")>0) $show=0;
 		$lts=$row[7];
 		$flow=split(',',$cdr_flow);
-		if (substr_count($cdr_flow,"forwarded")==0){
-			$calltonr=$flow[9];
-			if ($calltonr=="") $calltonr="undef";
-			$calltoln=$flow[11];
-			if ($calltoln=="") $calltonr="undef";
-		}else{
-			$calltonr="→".$flow[21];
-			if ($calltonr=="") $calltonr="undef";
-			$calltoln=$flow[23];
-			if ($calltoln=="") $calltonr="undef";
+		unset($p1);
+		unset($p2);
+
+		$flow=split("},{",$cdr_flow);
+		for ($i=1;$i <= count($flow); $i++){
+			$test=split(',',$flow[$i]);
+			
+			if (substr($test[1],0,3)=="000")	{
+				$test[1]="+".substr($test[1],3);
+			}
+			elseif (substr($test[1],0,2)=="00"){
+				$test[1]="+49".substr($test[1],2);
+			}elseif (substr($test[1],0,1)=="0"){
+				$test[1]="+49731".substr($test[1],1);
+			}
+            
+			switch ($test[0]){
+
+				case "setup-from":
+				case "setup-to":
+			   
+			   if ($test[1]!="+49731"){
+				   $extern="<tr><td><img src='setup.jpg'></td><td>$test[1]</td><td>$test[3]</td></tr>";
+			   }else{$show=0;}
+				
+				//if ($test[3]=="") $show=0;
+				break;
+
+				case "alert-to":
+				case "alert-from":
+				$extern.="<tr><td><img src='alert.jpg'></td><td>$test[1]</td><td>$test[3]</td></tr>";
+				break;
+
+				case "conn-to":
+				case "conn-from":
+				$extern.="<tr><td><img src='conn.jpg'></td><td>$test[1]</td><td>$test[3]</td></tr>";
+				break;
+
+				case "transfer-from":
+				$zzz=" → ";
+				break;
+
+				case "transfer-to":
+				$zzz=" ← ";
+				break;
+
+				case"connected":
+				$extern.="<tr><td>$zzz<img src='conn.jpg'></td><td>$test[1]</td><td>$test[3]</td></tr>";
+				break;
+			}
 		}
-		$callto=str_replace('}','',$calltonr.", ".$calltoln);
+
+		
+		$callto=$extern;
 			
 		if ($cdr_dir=="from") {
 			
@@ -152,10 +207,12 @@ while ($row = pg_fetch_row($result)) {
 			$cdr_dir="an";
 			$cdr_dirr='<span style="color:green"> ← </span>';
 		}
-		
-		echo "<tr><td>$lts</td><td>$cdr_dir $cn ($cdr_e162) $cdr_h323</td><td>$cdr_dirr</td><td>$callto</td><td>$calldur</td><td>$alertdur</td></tr>";
+		if ($show==1){
+//		echo "<tr><td class='tt'>$lts</td><td class='tt'>$cdr_dir $cn ($cdr_e162) $cdr_h323</td><td class='tt'>$cdr_dirr</td><td class='tt'><table>$callto</table></td><td class='tt'>$calldur</td><td class='tt'>$alertdur</td></tr>";
+		echo "<tr><td class='tt'>$lts</td><td class='tt'>$cn ($cdr_e162) $cdr_h323</td><td class='tt'>$cdr_dirr</td><td class='tt'><table>$callto</table></td><td class='tt'>$calldur</td><td class='tt'>$alertdur</td></tr>";
 		//echo "<tr><td>$cdr_flow</td></tr>";
 		
+		}
 		
 }	
 	

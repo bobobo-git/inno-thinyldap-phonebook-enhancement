@@ -131,7 +131,7 @@ while ($row = pg_fetch_row($result))
 	{
 		//echo "<br>".$y;
 		$c_row = current($row);
-		echo $c_row."<br>";
+		//echo $c_row."<br>";
 		if ($y==0){
 			$line=split(',',$c_row);
 		
