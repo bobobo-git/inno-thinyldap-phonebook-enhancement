@@ -26,11 +26,11 @@ td{
 	border: thin solid #00CC33;
 }
 a{
-	font: normal normal large sans-serif;
+	font: normal normal normal sans-serif;
 	letter-spacing: 2px;
 }
 p{
-font-size:120%
+font-size:100%
 }
 
  	 
@@ -40,22 +40,30 @@ font-size:120%
   
   <body>
   <a href="index.html">&Uuml;bersicht</a>
-  <p>
-  Die <b>App</b> wird von myPBX gestartet wenn ein Anruf von einem bis dahin unbekannten Anrufer eingeht.
+  <p>Die <b>App</b> kann aufgerufen werden wenn ein unbekannter Anruf eingeht durch Drücken des dafür vorgesehenen Knopfs. <a target="img" href="img/myPBXincomingunknown.png">Bild</a><br>
+  Beim Drücken des Knopfs erscheint ein Fenster mit der Möglichkeit zur Eingabe des Nachnamens, dann der Firma (hier liegen dann üblicherweise Vorschläge von bereits existierenden Firmennamen vor, erreichbar mit Pfeil nach unten im Firmenauswahlfeld), dann die Eingabe des Vornamens (auch hier liegen zu dem Nachnamen und Firma passende Vornamen vor, erreichbar durch Pfeil-Nach-Unten im Vornamenauswahlfeld).      <a target="img" href="img/myPBXincoming.png">(Bild)</a></p>
+  <p>Nach Abschicken wird der Eintrag im Telefonbuch getätigt. Der nächste Anruf dieser Rufnummer wird dann mit dem Namen, Firma,.. angezeigt.</p>
+  <p> In der <b>App</b> kann auch direkt auf die Webseite des Telefonbuchs gesprungen werden. Dazu gibt es drei Möglichkeiten. 'Webübernahme' ruft das Telefonbuch auf und die Rufnummer ist in der Zwischenablage und kann von dort per 'Einfg' in ein Feld übernommen werden. 'Editor' ruft direkt das Telefonbuch auf und 'Phonebook' landet auf der Übersichtsseite des Telefonbuchs.
   </p> 
-  <p>Es erscheint ein Fenster mit der Möglichkeit zur Eingabe des Nachnamens, dann der Firma (hier liegen dann Vorschläge von bereits existierenden Firmennamen vor, erreichbar mit Pfeil nach unten im Firmenauswahlfeld), dann die Eingabe des Vornamens (auch hier liegen zu dem Nachnamen und Fiorma passende Vornamen vor, erreichbar durch Pfeil-Nach-Unten im Vornamenauswahlfeld).<a target="img" href="img/myPBXincoming.png"> (Bild) </a></p>
-  <p>Nach Abschicken wird der Eintrag im Telefonbuch getätigt. Der nächste Anruf dieser Rufnummer wird dann mit dem Namen, Firma,.. angezeigt. </p>
-  <hr>
+  Die <b>App</b> kann auch durch eine eingegebene Nummer zur Wahlvorbereitung aufgerufen werden. es erscheint der Knopf hinter der aufgelisteten eingegebenen Rufnummer.
   <p>
-  Bei der (auch teilweisen) Eingabe eines Namens oder Firma im Suchfeld von myPBX werden als Ergebnis die gefundenen Einträge gelistet. In den gelisteten Einträge die eine Rufnummer beinhalten, existiert eine Aufrufmöglichkeit der <b>App</b>. <a target="img" href="img/myPBXfromlist.png"> (Bild) </a></p>
-  <p>Die <b>App</b> erkennt die damit übergebene Rufnummer und öffnet ein Browserfenster zum TelefonbuchEditor mit der bereits getätigten Suche nach dieser Rufnummer. <a target="img" href="img/webEditor.png"> (Bild) </a>Dort können dann Einträge vorgenommen oder geändert oder auch gelöscht werden.</p>
-  <p>Wenn die App am bildschirm angezeigt wird gibt es die Möglichkeit des Aufrufs des Telefonbucheditors (Webseite) per Knopf oder durch Drücken von F3, des Aufrufs der Telefonbuch-Übersichtsseite durch Drücken des Knopf 'Phonebook' oder mit Strg-F3  mit Strg-F3 und der Aufruf dieser Hilfe durch  Drücken von F1 </p>
+  Die <b>App</b> kann von myPBX auch automatisch gestartet werden wenn ein unbekannter Anruf eingeht. Dazu gibt es ein Häkchen in der Konfiguration des myPBX-Clients .'Bei Anrufanname starten'. 
+  </p> 
+  
+  <hr>  
+  <p>
+  Bei der (auch teilweisen) Eingabe eines Namens oder Firma im Suchfeld von myPBX werden als Ergebnis die gefundenen Einträge gelistet. In den gelisteten Einträge die eine Rufnummer beinhalten, existiert eine Aufrufmöglichkeit der <b>App</b>. <a target="img" href="img/myPBXfromlist.png">(Bild)</a></p>
+  <p>Die <b>App</b> erkennt die damit übergebene Rufnummer und öffnet ein Browserfenster zum TelefonbuchEditor mit der bereits getätigten Suche nach dieser Rufnummer. <a target="img" href="img/webEditor.png">(Bild)</a>Dort können dann Einträge vorgenommen oder geändert oder auch gelöscht werden.</p>
+  <p>Wenn die <b>App</b> am Bildschirm angezeigt wird gibt es die Möglichkeit des Aufrufs des Telefonbucheditors (Webseite) per Knopf oder durch Drücken von F3, des Aufrufs der Telefonbuch-Übersichtsseite durch Drücken des Knopf 'Phonebook' oder mit Strg-F3  mit Strg-F3 und der Aufruf dieser Hilfe durch  Drücken von F1 </p>
 
   <hr>
   <p>
-  Die <b><a target="cl" href="calllist.php">Call Liste</a></b> <a target="img" href="img/Callliste.png"> (Bild) </a>enthält eingegangene Rufnummern für die zum Zeitpunkt Abfrage kein Namen eingetragen ist. 
-  Die Rufnummer lässt sich durch anklicken in das Telefonbuch übernehmen. Danach erscheint sofort der Dialog zur Eingabe weiterer Angaben zu dieser Rufnummer (Firma, Nachname,...)
+  Die <b><a target="cl" href="calllist.php">Call Liste</a></b> <a target="img" href="img/Callliste.png">(Bild) </a>enthält eingegangene Rufnummern für die zum Zeitpunkt Abfrage kein Namen eingetragen ist. 
+  Die Rufnummer lässt sich durch Anklicken in das Telefonbuch übernehmen.   Danach erscheint sofort der Dialog zur Eingabe weiterer Angaben zu dieser Rufnummer (Firma, Nachname,...). Wenn der Eintrag nmicht übernommen werden soll klicken Sie auf 'Entfernen'.
   </p>
+  <p>
+  Die TopDownListe mit Gesprächen pro Tag enthält nach DAtum selektierbare Anruflisten für alle Teilnehmer und allen Anrufen pro Tag. <a target="img" href="img/liste2.png">(BILD)</a>
+  <p>
   <hr>
   <p>
   Der <b><a target="tbed" href="editor.php?username=addresseditor&amp;select=address">Telefonbucheditor</a></b> listet die Datensätze des Telefonbuchs.</p>

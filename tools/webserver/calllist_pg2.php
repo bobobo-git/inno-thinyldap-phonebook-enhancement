@@ -78,18 +78,18 @@ $query="SELECT c.cn, c.cdr_e164, c.cdr_h323, c.cdr_dir, cp.cdrp_call_flow, cp.al
 $result = pg_query($query);
 
 $i = 0;
-if ($_POST["t"]==22){
+if ($_POST["autorefresh"]=="yes"){
 	// nur für Auswahl heute Seitenrefresh
 	echo '<script language=javascript>
-		Timer=setTimeout("location.reload();", 60000);
+		Timer=setTimeout("location.reload();", 10000);
 </script>';
 }
 //echo '<body>';
 
 
 echo '<p><a href="index.html">zur Übersicht</a>';
-if ($_POST["t"]==0){
-	echo '<small style="padding-left:50px;">refresh alle 60 Sekunden</small>';
+if ($_POST["autorefresh"]=="yes") {
+	echo '<small style="padding-left:50px;">refresh alle 10 Sekunden</small>';
 }
 echo '<p>';
 //echo $_POST['t'];
@@ -113,13 +113,14 @@ for ($i = 3; $i <= 356; $i++) {
 	}
 }
 
-      
+if ($_POST["autorefresh"]=="yes") $cbchkd="checked";
+
 echo'    </select>
-  </label>
+  </label>autorefresh <input type="checkbox" name="autorefresh" value="yes" '.$cbchkd.'>
     <button type="submit" >Abfragen</button>';
 	//<button type="reset">Abbrechen</button>
 echo '</form>';
-
+ob_start();
 echo "<table class='t'>";
 echo "<tr><th class='t'>Wann</th><th class='t'>Intern</th><th class='t'><img src='dir.jpg'></th><th class='t'><img src='state.jpg'>Extern</th><th class='t'>Dauer</th><th class='t'>Alert</th></tr>";
 while ($row = pg_fetch_row($result)) {
@@ -166,7 +167,9 @@ while ($row = pg_fetch_row($result)) {
 				case "setup-to":
 			   
 			   if ($test[1]!="+49731"){
-				   $extern="<tr><td><img src='setup.jpg'></td><td>$test[1]</td><td>$test[3]</td></tr>";
+				   $setuplineuser="<td>$test[1]</td><td>$test[3]</td></tr>";
+				   $extern="<tr><td><img src='setup.jpg'></td>".$setuplineuser;
+			   
 			   }else{$show=0;}
 				
 				//if ($test[3]=="") $show=0;
@@ -175,12 +178,31 @@ while ($row = pg_fetch_row($result)) {
 				case "alert-to":
 				case "alert-from":
 				//$extern.="<tr><td><img src='alert.jpg'></td><td>$test[1]</td><td>$test[3]</td></tr>";
-				$extern.="<tr><td><img src='alert.jpg'></td><td>$test[1]</td><td>$test[3]</td></tr>";
+				$alertlineuser="<td>$test[1]</td><td>$test[3]</td></tr>";
+				if ($setuplineuser==$alertlineuser){
+						$alertline="<tr><td><img src='alert.jpg'></td><td></td><td></td></tr>";
+				}else {
+					$alertline="<tr><td><img src='alert.jpg'></td>".$alertlineuser;
+				}
+				
+				if ($alertlineold<>$alertline){
+					$extern.=$alertline;
+				}
+				$alertlineold=$alertline;
+				
+				
+				
+				
 				break;
 
 				case "conn-to":
 				case "conn-from":
-				$extern.="<tr><td><img src='conn.jpg'></td><td>$test[1]</td><td>$test[3]</td></tr>";
+				$connlineuser="<td>$test[1]</td><td>$test[3]</td></tr>";
+				if ($setuplineuser==$connlineuser){
+					$extern.="<tr><td><img src='conn.jpg'></td><td></td><td></td></tr>";
+				}else{
+					$extern.="<tr><td><img src='conn.jpg'></td>".$connlineuser;
+				}
 				break;
 
 				case "transfer-from":
@@ -216,7 +238,7 @@ while ($row = pg_fetch_row($result)) {
 		if ($show==1){
 //		echo "<tr><td class='tt'>$lts</td><td class='tt'>$cdr_dir $cn ($cdr_e162) $cdr_h323</td><td class='tt'>$cdr_dirr</td><td class='tt'><table>$callto</table></td><td class='tt'>$calldur</td><td class='tt'>$alertdur</td></tr>";
 		echo "<tr><td class='tt'>$lts</td><td class='tt'>$cn ($cdr_e162) $cdr_h323</td><td class='tt'>$cdr_dirr</td><td class='tt'><table>$callto</table></td><td class='tt'>$calldur</td><td class='tt'>$alertdur</td></tr>";
-		//echo "<tr><td>$cdr_flow</td></tr>";
+		///echo "<tr><td>$cdr_flow</td></tr>";
 		
 		}
 		
@@ -234,7 +256,8 @@ echo $default;
 
 //require("dbdisconnect.php");
 //echo ini_get ("memory_limit");
-
+flush();
+ob_flush();
 ?>
 </div>
 
