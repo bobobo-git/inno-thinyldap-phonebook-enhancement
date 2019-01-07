@@ -72,8 +72,10 @@ if (!$link){
 }
 if (!isset($_POST["t"])) $_POST["t"]=0;
 //$query = "select cp.cdrp_call_flow , ' dura:',cp.alert_duration,' durc:',cp.conn_duration,' ts:',c.local_stamp from cdr_properties cp, cdrs c where cp.cdr_id=c.id and date(c.local_stamp)=date(current_date)-".$_POST["t"]." order by local_stamp , cdr_id";
-$query="SELECT c.cn, c.cdr_e164, c.cdr_h323, c.cdr_dir, cp.cdrp_call_flow, cp.alert_duration, cp.conn_duration, c.local_stamp FROM cdrs c, cdr_properties cp WHERE (c.id = cp.cdr_id) and date(c.local_stamp)=date(current_date)-".$_POST["t"]."ORDER BY c.local_stamp DESC;";
 //echo $query;
+$query = 'select cp.cdrp_call_flow , cp.alert_duration,cp.conn_duration,c.local_stamp,cp.cdr_id,cp.cdrp_conf from cdr_properties cp, cdrs c where cp.cdr_id=c.id and date(c.local_stamp)=date(current_date)-'.$_POST["t"].' order by local_stamp, cdr_id';
+
+$query="SELECT c.cn, c.cdr_e164, c.cdr_h323, c.cdr_dir, cp.cdrp_call_flow, cp.alert_duration, cp.conn_duration, c.local_stamp FROM cdrs c, cdr_properties cp WHERE (c.id = cp.cdr_id) and date(c.local_stamp)=date(current_date)-".$_POST["t"]."ORDER BY c.local_stamp DESC;";
 
 $result = pg_query($query);
 
@@ -142,7 +144,7 @@ while ($row = pg_fetch_row($result)) {
 		
 		if (($alertdur==0)or($calldur==0)) $show=0;
 		if (($calldur==0) and ($alertdur==0)) $show=1;
-		if (substr_count($cdr_flow,"cf-from")>0) $show=0;
+		if (substr_count($cdr_flow,"cf-from")>0) $show=1;
 		$lts=$row[7];
 		$flow=split(',',$cdr_flow);
 		unset($p1);
