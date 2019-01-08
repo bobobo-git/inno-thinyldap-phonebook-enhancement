@@ -172,7 +172,7 @@ while ($row = pg_fetch_row($result)) {
 				   $setuplineuser="<td>$test[1]</td><td>$test[3]</td></tr>";
 				   $extern="<tr><td><img src='setup.jpg'></td>".$setuplineuser;
 			   
-			   }else{$show=0;}
+			   }else{$show=1;}
 				
 				//if ($test[3]=="") $show=0;
 				break;
