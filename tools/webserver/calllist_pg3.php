@@ -73,9 +73,18 @@ if (!$link){
 if (!isset($_POST["t"])) $_POST["t"]=0;
 //$query = "select cp.cdrp_call_flow , ' dura:',cp.alert_duration,' durc:',cp.conn_duration,' ts:',c.local_stamp from cdr_properties cp, cdrs c where cp.cdr_id=c.id and date(c.local_stamp)=date(current_date)-".$_POST["t"]." order by local_stamp , cdr_id";
 //echo $query;
-$query = 'select cp.cdrp_call_flow , cp.alert_duration,cp.conn_duration,c.local_stamp,cp.cdr_id,cp.cdrp_conf from cdr_properties cp, cdrs c where cp.cdr_id=c.id and date(c.local_stamp)=date(current_date)-'.$_POST["t"].' order by local_stamp, cdr_id';
+//$query = 'select cp.cdrp_call_flow , cp.alert_duration,cp.conn_duration,c.local_stamp,cp.cdr_id,cp.cdrp_conf from cdr_properties cp, cdrs c where cp.cdr_id=c.id and date(c.local_stamp)=date(current_date)-'.$_POST["t"].' order by local_stamp, cdr_id';
+$addd = $_POST["t"];
+//if ($addd==0){
+//}
+//else {
+//	$addd=$addd+1;
+//}
+$query="SELECT c.cn, c.cdr_e164, c.cdr_h323, c.cdr_dir, cp.cdrp_call_flow, cp.alert_duration, cp.conn_duration, c.local_stamp FROM cdrs c, cdr_properties cp WHERE (c.id = cp.cdr_id) and date(c.local_stamp) <= date(current_date)-(".$addd.") and  date(c.local_stamp) >= date(current_date)-(".$addd."+6) ORDER BY c.local_stamp DESC;";
 
-$query="SELECT c.cn, c.cdr_e164, c.cdr_h323, c.cdr_dir, cp.cdrp_call_flow, cp.alert_duration, cp.conn_duration, c.local_stamp FROM cdrs c, cdr_properties cp WHERE (c.id = cp.cdr_id) and date(c.local_stamp)=date(current_date)-".$_POST["t"]."ORDER BY c.local_stamp DESC;";
+
+
+
 
 $result = pg_query($query);
 
@@ -96,22 +105,18 @@ if ($_POST["autorefresh"]=="yes") {
 echo '<p>';
 //echo $_POST['t'];
 
-echo '<form action="calllist_pg2.php" method="POST">
+echo '<form action="calllist_pg3.php" method="POST">
     <label>Tage:
     <select name="t" size="1">';
 if ($_POST['t']==0)  $sel0="selected";
-if ($_POST['t']==1)  $sel1="selected";
-if ($_POST['t']==2)  $sel2="selected";
-if ($_POST['t']==3)  $sel3="selected";
-echo "    <option $sel0 value=0> heute </option>";
-echo "    <option $sel1 value=1> gestern </option>";
-echo "    <option $sel2 value=2> vorgestern </option>";
 
-for ($i = 3; $i <= 356; $i++) {
-	if ($_POST["t"]==$i){
-		echo "<option selected value=$i> vor $i Tagen </option>";
+echo "    <option $sel0 value=0> bis heute </option>";
+
+for ($i = 7; $i <= 356; ($i+= 7)) {
+	if ($_POST["t"]==($i)){
+		echo "<option selected value=$i> bis vor $i Tagen </option>";
 	}else{
-		echo "<option value=$i> vor $i Tagen </option>";
+		echo "<option value=$i> bis vor $i Tagen </option>";
 	}
 }
 
@@ -208,7 +213,7 @@ while ($row = pg_fetch_row($result)) {
 				break;
 
 				case "transfer-from":
-				$extern.="<tr><td><img src='cf.jpg'></td><td><a href=\"tel:$test[1]\">$test[1]</a></td><td>$test[3]</td></tr>";
+				$extern.="<tr><td><img src='cf.jpg'></td><td><a href=\"tel:$test[1]\">$test[1]</a><td>$test[3]</td></tr>";
 				$done=1;
 				break;
 

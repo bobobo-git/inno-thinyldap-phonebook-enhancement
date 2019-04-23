@@ -59,7 +59,7 @@ if (!$link){
 }
 if (!isset($_POST["t"])) $_POST["t"]=0;
 //$query = 'select cp.cdrp_call_flow , c.local_stamp from cdr_properties cp, cdrs c where cp.cdr_id=c.id and date(c.local_stamp)=date(current_date)-'.$_POST["t"].' order by c.local_stamp desc , cdr_id desc';
-$query = 'select cp.cdrp_call_flow , c.local_stamp from cdr_properties cp, cdrs c where cp.cdr_id=c.id  order by c.local_stamp desc , cdr_id desc limit 333';
+$query = 'select cp.cdrp_call_flow , c.local_stamp from cdr_properties cp, cdrs c where cp.cdr_id=c.id  and date(c.local_stamp)>=date(current_date)-33 order by c.local_stamp desc , cdr_id desc';
 
 
 $result = pg_query($query);
