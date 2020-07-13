@@ -76,6 +76,16 @@ mysql -u root
 --
 to get access to the mysql-table you can call the editor.php with some parameters
   
+--
+if mysql is fussy (stops reacting) you can cron job a 'service mysql restart' als daily.cronjob
+nano /etc/cron.daily/mysql
+----this into the file---
+#!/bin/sh
+service mysql restart
+-------------------------
+Save it and 'chmod 0755 /etc/cron.daily/mysql' ensures executablility
+
+--
 http://<IP Of LAP>:8080/editor.php?username=addressmaster&select=address
 will ask for a password
 
